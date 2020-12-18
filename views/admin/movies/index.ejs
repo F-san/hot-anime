@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="referrer" content="never" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>电影信息</title>
@@ -38,13 +39,23 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% data.forEach((item,index)=>{ %>
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><%= index+1 %></td>
+                        <td><%= item.title %></td>
+                        <td>
+                          <img
+                            style="max-width: 120px; max-height: 120px"
+                            src="<%= item.img %>"
+                          />
+                        </td>
+                        <td><%= item.categories %></td>
+                        <td>
+                          <button class="btn btn-info btn-sm">删除</button>
+                          <button class="btn btn-danger btn-sm">修改</button>
+                        </td>
                       </tr>
+                      <%})%>
                     </tbody>
                   </table>
                 </div>

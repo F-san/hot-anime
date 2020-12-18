@@ -28,16 +28,23 @@
             <div class="ibox-content">
               <div class="row">
                 <div class="col-sm-12">
-                  <form action="" method="POST" role="form">
+                  <form action="/admin/movies/create" method="POST" role="form">
                     <div class="form-group">
                       <label for="">影片名称</label>
                       <input
                         type="text"
                         class="form-control"
-                        id=""
+                        name="title"
                         placeholder="请输入影片名称"
                       />
                     </div>
+                    <textarea
+                      name="description"
+                      class="form-control"
+                      cols="30"
+                      rows="10"
+                      placeholder="请输入影片描述"
+                    ></textarea>
                     <button type="submit" class="btn btn-primary">新增</button>
                   </form>
                 </div>
