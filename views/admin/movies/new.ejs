@@ -28,6 +28,13 @@
             <div class="ibox-content">
               <div class="row">
                 <div class="col-sm-12">
+                  <!-- 上传文件的真正input -->
+                  <input
+                    onchange="fileSelected(event)"
+                    type="file"
+                    id="fileUpload"
+                    style="display: none"
+                  />
                   <form action="/admin/movies/create" method="POST" role="form">
                     <div class="form-group">
                       <label for="">影片名称</label>
@@ -36,6 +43,19 @@
                         class="form-control"
                         name="title"
                         placeholder="请输入影片名称"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="">上传图片</label>
+                      <!-- 存入数据库的input  -->
+                      <!-- hidden一般用来传值，而不必让用户看到 -->
+                      <input type="hidden" name="img" value="" id="hfImg" />
+                      <!-- 点击图片触发 -->
+                      <img
+                        id="img"
+                        src="/images/upload.png"
+                        alt=""
+                        style="width: 120px; max-height: 120px"
                       />
                     </div>
                     <textarea
@@ -58,8 +78,66 @@
     <!-- 全局js -->
     <script src="/admin/js/jquery.min.js?v=2.1.4"></script>
     <script src="/admin/js/bootstrap.min.js?v=3.3.6"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
     <!-- 自定义js -->
     <script src="/admin/js/content.js?v=1.0.0"></script>
+
+    <script>
+      /*
+       * JQ 方案
+       */
+      /*  $(function () {
+        $("#img").click(function () {
+          $("#fileUpload").click();
+        });
+
+        $("#fileUpload").change(function (event) {
+          var formData = new FormData();
+          // console.log(event.currentTarget);
+          // 选中当前选中项的第一个图片
+          // event.currentTarget ===this  指当前DOM元素（input表单）
+          // files存储了所有文件（files.length）,将第一个文件添加到实例中
+          formData.append("file", event.currentTarget.files[0]);
+
+          $.ajax({
+            type: "POST",
+            url: "/api/v1/common/file_update",
+
+            // 最主要的三行代码
+            data: formData,
+            // 不设置请求头的contenttype
+            contentType: false,
+            // 数据不进行序列化
+            processData: false,
+
+            success(res) {
+              //res， api返回的JSON数据，res.info：图片地址
+              // 图片src改变路径，改变显示图片
+              $("#img").attr("src", res.info);
+
+              // 设置隐藏于的值，传递给数据库
+              $("#hfImg").val(res.info);
+            },
+          });
+        });
+      }); */
+
+      /*
+       *axios
+       */
+      $(function () {
+        $("#img").click(function () {
+          $("#fileUpload").click();
+        });
+      });
+      function fileSelected(event) {
+        var formData = new FormData();
+        formData.append("file", event.currentTarget.files[0]);
+        axios.post("/api/v1/common/file_update", formData).then(function (res) {
+          $("#img").attr("src", res.data.info);
+          $("#hfImg").val(res.data.info);
+        });
+      }
+    </script>
   </body>
 </html>
